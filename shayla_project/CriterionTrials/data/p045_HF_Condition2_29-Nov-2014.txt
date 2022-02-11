@@ -1,0 +1,11 @@
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
+0 1 8 1 0 0 0 0.0000
+0 2 4 2 0 0 0 0.0000
+0 3 7 2 0 0 0 0.0000
+0 4 9 1 0 0 0 0.0000
+0 5 5 2 0 0 0 0.0000
+1 1 8 2 1 1 1 2.4527
+1 2 9 2 3 1 1 2.1117
+1 3 5 1 2 1 1 2.1226
+1 4 4 1 10 2 1 3.5445
+1 5 7 1 6 1 1 2.2766

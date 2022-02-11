@@ -1,0 +1,142 @@
+%% Main Code for Shayla's Project
+
+Screen('Preference', 'SkipSyncTests', 1); % Removes any unsolved errors
+stimuli_dir = [pwd '/pics'];
+function_dir = [pwd '/functions'];
+NoiseMaskImageSize=[1080 720]; %Change it to the size to the stimulus
+data_dir = [pwd, 'data'];
+
+fixation_duration=.5;
+Training_duration=2; %used to be 15
+NoiseMask_duration=1;
+Training_ISI=1;
+
+gray=140;%background grayscale level, could be changed to a value of choice
+fontSize=40;
+
+fixation=fixationcross(20,2,gray);
+NoiseMask=uint8(randn(NoiseMaskImageSize)*50+gray); 
+
+
+
+addpath(function_dir);
+subj_id=input('Subject ID:','s');
+Condition=input('Experimental Condition, 1 for Geology, 2 for Fiction, 3 for Art and 4 for Russian :','s');
+
+if str2double(Condition)==1 % condition 1, Geology
+    stimuli_dir=[stimuli_dir '/geology_pics'];
+    imgload_stim_dir='../pics/geology_pics/Geology-';
+    num_of_img = 4
+elseif str2double(Condition)==2 % condition 2, Fiction
+    stimuli_dir=[stimuli_dir '/fiction_pics'];
+    imgload_stim_dir='../pics/fiction_pics/Fiction-';
+    num_of_img = 4
+elseif str2double(Condition)==3 %condition 3, Art
+    stimuli_dir=[stimuli_dir '/art_pics'];
+    imgload_stim_dir='../pics/art_pics/Art-';
+    num_of_img = 4
+elseif str2double(Condition)==4 %condition 4, Russian
+    stimuli_dir=[stimuli_dir '/russian_pics'];
+    imgload_stim_dir='../pics/russian_pics/Russian_History-';
+    num_of_img = 4
+end
+
+datafile=fopen([data_dir '/' subj_id '_Condition' Condition '_' date '.txt'],'a+');
+
+prompt = {'Enter tracker EDF file name (1 to 8 letters or numbers)'};
+dlg_title = 'Create EDF file';
+num_lines= 1;
+def     = {'YOUR_EDF_FILENAME'};
+answer  = inputdlg(prompt,dlg_title,num_lines,def);
+%edfFile= 'DEMO.EDF'
+edfFile = answer{1};
+fprintf('EDFFile: %s\n', edfFile);
+
+
+
+% Opening the Pysch Tool Box Screen
+%0 for native screen, 1 for external monitor
+
+dummymode=0;
+screenNum=0;  
+[wPtr, rect]=Screen('OpenWindow', screenNum);
+ifi=Screen('GetFlipInterval',wPtr);
+HideCursor;
+[width, height]=Screen('WindowSize', screenNum);
+
+%Optional Hide mouse cursor
+
+Screen('HideCursorHelper', wPtr);
+
+% Setting up the background
+
+
+Screen('FillRect', wPtr, gray); %fill the screen with gray value 
+Screen('Flip',wPtr);
+
+
+Screen('TextSize',wPtr,fontSize);
+DrawFormattedText(wPtr, 'Press the space bar to start showing the images', 'center', 'center', 0);
+Screen('Flip',wPtr);
+ while 1
+    [ keyIsDown, Secs, keyCode ] = KbCheck;%check key press
+     if keyIsDown
+                if keyCode(44) %keycode 32 is Space bar. Mac 44
+                    while KbCheck; end %wait till release key press, only one key press is recognized
+                    break;
+                end
+     end
+ end
+
+i = 1
+while i <= num_of_img
+
+imagePointer = strcat(imgload_stim_dir, num2str(i),'.png');
+
+ImgName=[stimuli_dir '/' 'Geology-' num2str(i) '.png'];
+Img=imread(ImgName);
+%display fixation cross
+ImgDsp(fixation,wPtr,fixation_duration,gray,ifi,1,'None',0,0);
+%display the current image for Training duration
+ImgDsp(Img,wPtr,Training_duration,gray,ifi,2,imagePointer,width,height);
+ 
+% Moving forward and backward
+ImgDsp(NoiseMask,wPtr,NoiseMask_duration,gray,ifi,3,'None',0,0);
+
+while 1
+    [ keyIsDown, Secs, keyCode ] = KbCheck;%check key press
+     if keyIsDown
+                Eyelink('Message', 'KEY_PRESS_DETECTED');
+                if keyCode(9) %'f', 70 Left. Mac 9 
+                    while KbCheck; end %wait till release key press, only one key press is recognized?xv
+
+                    break;
+                elseif keyCode(13) %'j', 74 Right. Mac 13
+                    while KbCheck; end
+                    i = i+1;
+                    break;
+                elseif keyCode(15) %'1', 76 know this person. Mac 15.
+                    while KbCheck; end
+                    i=i-1;
+                    break;
+                end  
+     end
+end
+ 
+
+WaitSecs(Training_ISI); 
+end
+
+debug();
+ 
+
+ 
+
+% Block to set up eye link
+% TODO:
+% Block to set up eye link
+
+
+
+
+
