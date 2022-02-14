@@ -1,0 +1,139 @@
+% Main Code for Udichi's Project
+% Date 11th February 2022
+% Contributor(s): Mustafa Muhammad 
+
+Screen('Preference', 'SkipSyncTests', 1); % Removes any unsolved errors
+stimuli_dir = [pwd '/pics'];
+function_dir = [pwd '/functions'];
+NoiseMaskImageSize=[1080 720]; %Change it to the size to the stimulus
+data_dir = [pwd, 'data'];
+
+fixation_duration=.5;
+Training_duration=3600; %used to be 15
+NoiseMask_duration=1;
+Training_ISI=1;
+
+gray=140;%background grayscale level, could be changed to a value of choice
+fontSize=40;
+
+fixation=fixationcross(20,2,gray);
+NoiseMask=uint8(randn(NoiseMaskImageSize)*50+gray); 
+
+
+
+addpath(function_dir);
+subj_id=input('Subject ID:','s');
+
+prompt = {'Enter tracker EDF file name (1 to 8 letters or numbers)'};
+dlg_title = 'Create EDF file';
+num_lines= 1;
+def     = {'EDF_N'};
+answer  = inputdlg(prompt,dlg_title,num_lines,def);
+%edfFile= 'DEMO.EDF'
+edfFile = answer{1};
+fprintf('EDFFile: %s\n', edfFile);
+
+
+
+% Opening the Pysch Tool Box Screen
+%0 for native screen, 1 for external monitor
+
+dummymode=0;
+screenNum=0;  
+[wPtr, rect]=Screen('OpenWindow', screenNum);
+ifi=Screen('GetFlipInterval',wPtr);
+HideCursor;
+[width, height]=Screen('WindowSize', screenNum);
+
+%Optional Hide mouse cursor
+
+Screen('HideCursorHelper', wPtr);
+
+% Setting up the background
+
+
+Screen('FillRect', wPtr, gray); %fill the screen with gray value 
+Screen('Flip',wPtr);
+
+
+Screen('TextSize',wPtr,fontSize);
+DrawFormattedText(wPtr, 'Press the space bar to start the video...', 'center', 'center', 0);
+Screen('Flip',wPtr);
+ while 1
+    [ keyIsDown, Secs, keyCode ] = KbCheck;%check key pressclc
+     if keyIsDown
+                if keyCode(44) %keycode 32 is Space bar. Mac 44
+                    while KbCheck; end %wait till release key press, only one key press is recognized
+                    break;
+                end
+     end
+ end
+ 
+try 
+    movie_path = '/Users/desouzadesouza/Desktop/udichis_project/IMG_152803008.MOV'; 
+catch e
+    disp(e.message)
+    debug();
+end
+
+movie_ptr = Screen('OpenMovie', wPtr, movie_path);
+Screen('PlayMovie', movie_ptr, 1);
+
+
+pause = 0;
+
+left = KbName('LeftArrow');
+
+while 1
+    tex = Screen('GetMovieImage', wPtr, movie_ptr);
+        
+    if tex<=0
+        break
+    end  
+    
+    Screen('DrawTexture', wPtr, tex, [], [], 180);
+
+    Screen('Flip', wPtr);
+
+    Screen('Close', tex);
+    
+end
+
+Screen('FillRect', wPtr, gray); %fill the screen with gray value 
+Screen('Flip',wPtr);
+
+
+Screen('TextSize',wPtr,fontSize);
+DrawFormattedText(wPtr, 'Play Back complete - Press space bar to try it yourself', 'center', 'center', 0);
+Screen('Flip',wPtr);
+while 1
+    [ keyIsDown, Secs, keyCode ] = KbCheck;%check key pressclc
+     if keyIsDown
+                if keyCode(44) %keycode 32 is Space bar. Mac 44
+                    while KbCheck; end %wait till release key press, only one key press is recognized
+                    break;
+                end
+     end
+end
+ 
+audio_file  = '/Users/desouzadesouza/Desktop/udichis_project/Background_song.mp3';
+
+InitializePsychSound(1);
+
+[waveform, Fs] = audioread(audio_file);
+numChannels = size(waveform, 2);
+
+pahandle = PsychPortAudio('Open', 2, [], 1, Fs, numChannels);
+
+
+
+
+PsychPortAudio('FillBuffer', pahandle, wav);
+
+
+ShowCursor;
+debug();
+
+
+
+

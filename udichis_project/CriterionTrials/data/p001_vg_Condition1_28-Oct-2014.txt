@@ -1,0 +1,6 @@
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
+Session Trial TargetID ImageVersion DistractorID Response Correct ResposeTime
