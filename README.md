@@ -1,6 +1,7 @@
 # Eye-Tracker
 Sample template repository for the eyelink 1000 plus eyetracker.
 
+Helping students design their experiments using the psychtoolbox and matlab to track eye data.
 ## Instructions for Cloning Project
 ```
 1. Open Terminal
