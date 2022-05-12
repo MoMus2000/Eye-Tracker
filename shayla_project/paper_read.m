@@ -28,7 +28,7 @@ Condition=input('Experimental Condition, 1 for Geology, 2 for Fiction, 3 for Art
 if str2double(Condition)==1 % condition 1, Geology
     stimuli_dir=[stimuli_dir '/geology_pics'];
     imgload_stim_dir='../pics/geology_pics/Geology-';
-    num_of_img = 8;
+    num_of_img = 4;
 elseif str2double(Condition)==2 % condition 2, Fiction
     stimuli_dir=[stimuli_dir '/fiction_pics'];
     imgload_stim_dir='../pics/fiction_pics/Fiction-';
@@ -40,7 +40,7 @@ elseif str2double(Condition)==3 %condition 3, Art
 elseif str2double(Condition)==4 %condition 4, Russian
     stimuli_dir=[stimuli_dir '/russian_pics'];
     imgload_stim_dir='../pics/russian_pics/Russian_History-';
-    num_of_img = 9;
+    num_of_img = 5;
 end
 
 datafile=fopen([data_dir '/' subj_id '_Condition' Condition '_' date '.txt'],'a+');
@@ -177,39 +177,21 @@ EyelinkDoDriftCorrection(el);
 Eyelink('StartRecording');    
 Eyelink('Message', 'Collecting eye movement');
 
-i = 1
 QUIT = 0
 while QUIT == 0
-
-imagePointer = strcat(imgload_stim_dir, num2str(i),'.png');
-
-if str2double(Condition) == 1
-    ImgName=[stimuli_dir '/' 'Geology-' num2str(i) '.png'];
-elseif str2double(Condition) == 2
-    ImgName=[stimuli_dir '/' 'Fiction-' num2str(i) '.png'];
-elseif str2double(Condition) ==3
-    ImgName=[stimuli_dir '/' 'Art-' num2str(i) '.png'];
-elseif str2double(Condition) == 4
-    ImgName=[stimuli_dir '/' 'Russian_History-' num2str(i) '.png'];
-end
-
-Img=imread(ImgName);
 %display fixation cross
 ImgDsp(fixation,wPtr,fixation_duration,gray,ifi,1,'None',0,0);
 %display the current image for Training duration
-ImgDsp(Img,wPtr,Training_duration,gray,ifi,2,imagePointer,width,height);
-
 while 1
     [ keyIsDown, Secs, keyCode ] = KbCheck;%check key press
      if keyIsDown
                 if keyCode(9) %'f', 70 Left. Mac 9 
                     while KbCheck; end %wait till release key press, only one key press is recognized?xv
-                    QUIT=1;
+                    Eyelink('StopRecording');
                     break;
                 elseif keyCode(13) %'j', 74 Right. Mac 13
                     while KbCheck; end
-                    i = i+1;
-                    Eyelink('StopRecording');
+%                     Eyelink('StopRecording');
                     Eyelink('StartRecording');
                     break;
                 elseif keyCode(44) %'Space Bar', 76 know this person. Mac 15.
@@ -219,15 +201,6 @@ while 1
                 end  
      end
 end
-
-if i < 1
-    i = 1;
-end
-
-if i >= num_of_img
-    i = num_of_img;
-end
-
 end
 
 % end of the experiment
@@ -257,8 +230,3 @@ end
 Eyelink('ShutDown');
 Screen('CloseAll');
 ShowCursor;
- 
-
-
-
-
