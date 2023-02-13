@@ -1,4 +1,4 @@
-
+addpath('functions/')
 % Method to be able to calculate the error between a reference edf and
 % another edf file. 
 % We can do that by comparing the positions between the two files and

@@ -1,3 +1,4 @@
+addpath('functions/')
 referenceEdf = Edf2Mat('./ud1205g.edf');
 rbEdf = Edf2Mat('/Users/desouza/Desktop/udichis project/rb1128g2.edf');
 axEdf = Edf2Mat('/Users/desouza/Desktop/udichis project/ax1122g.edf');
@@ -24,7 +25,7 @@ totalSamplesInATrial = (totalSamples/totalSampleTime * 68);
 
 samplesInASecond = round(totalSamplesInATrial / 68);
 
-[pointSampleRefX, pointSampleRefY] = pointOfInterestFunc(referenceEdf, POVX, POVY, samplesInASecond);
+[pointSampleRefX, pointSampleRefY] = pointOfInterestFunc(referenceEdf, POVX, POVY, samplesInASecond, '1');
 
 figure(); 
 plot(pointSampleRefX)
@@ -54,7 +55,7 @@ totalSamplesInATrial = (totalSamples/totalSampleTime * 68);
 samplesInASecond = round(totalSamplesInATrial / 68);
 
 
-[pointSampleX, pointSampleY] = pointOfInterestFunc(rbEdf, POVX, POVY, samplesInASecond);
+[pointSampleX, pointSampleY] = pointOfInterestFunc(rbEdf, POVX, POVY, samplesInASecond, '1');
 
 figure();
 plot(pointSampleX)
@@ -92,7 +93,7 @@ totalSamplesInATrial = (totalSamples/totalSampleTime * 68);
 samplesInASecond = round(totalSamplesInATrial / 68);
 
 
-[pointSampleX, pointSampleY] = pointOfInterestFunc(axEdf, POVX, POVY, samplesInASecond);
+[pointSampleX, pointSampleY] = pointOfInterestFunc(axEdf, POVX, POVY, samplesInASecond, '1');
 
 figure();
 plot(pointSampleX)

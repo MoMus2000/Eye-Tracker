@@ -1,5 +1,5 @@
-
-% Method to be able to calculate the error between a reference edf and
+addpath('functions/')
+% Method to be able to calculate the error addpath('functions/')between a reference edf and
 % another edf file. 
 % We can do that by comparing the positions between the two files and
 % storing the mean squared error and plotting it out to be an obervable
