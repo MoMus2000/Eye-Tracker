@@ -1,8 +1,8 @@
 addpath('functions/')
-referenceEdf = Edf2Mat('./ud1205g.edf');
-rbEdf = Edf2Mat('/Users/desouza/Desktop/udichis project/rb1128g2.edf');
+referenceEdf = Edf2Mat('/Users/mmuhammad/Documents/MATLAB/edf-converter/edfData/ud1205g.edf');
+rbEdf = Edf2Mat('/Users/mmuhammad/Documents/MATLAB/edf-converter/edfData/rb1128g2.edf');
 
-axEdf = Edf2Mat('/Users/desouza/Desktop/udichis project/ax1122g.edf');
+axEdf = Edf2Mat('/Users/mmuhammad/Documents/MATLAB/edf-converter/edfData/ax1122g.edf');
 
 % We get every single movement based on time
 % Once we have the movement, we create two plot, 
@@ -10,7 +10,7 @@ axEdf = Edf2Mat('/Users/desouza/Desktop/udichis project/ax1122g.edf');
 
 addpath('functions/')
 
-edf1 =  Edf2Mat('/Users/desouza/Desktop/udichis project/ax1019g.edf');
+edf1 =  Edf2Mat('/Users/mmuhammad/Documents/MATLAB/edf-converter/edfData/ax1019g.edf');
 
 samples = referenceEdf.Samples;
 
